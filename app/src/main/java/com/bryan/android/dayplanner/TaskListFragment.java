@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class TaskListFragment extends Fragment{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == R.id.menu_task_list){
+        if(item.getItemId() == R.id.menu_item_task_list){
             Task t = new Task();
             DailyTasks.get(getActivity()).addTask(t);
             Intent intent = TaskPagerActivity.newIntent(getActivity(), t.getId());
@@ -73,8 +74,10 @@ public class TaskListFragment extends Fragment{
             mTaskAdapter = new TaskAdapter(dailyTasks);
             mRecyclerView.setAdapter(mTaskAdapter);
         }
-        else
+        else {
+            mTaskAdapter.setTasks(dailyTasks);
             mTaskAdapter.notifyDataSetChanged();
+        }
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -98,9 +101,16 @@ public class TaskListFragment extends Fragment{
         public void onBindTask(Task task){
             mTask = task;
 
-            mCheckBox.setChecked(mTask.getIsCompleted());
             mTaskTitle.setText(mTask.getTaskName());
             mTaskDate.setText(mTask.getDateCompleted().toString());
+
+            mCheckBox.setChecked(mTask.getIsCompleted());
+            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mTask.setIsCompleted(isChecked);
+                }
+            });
         }
 
         @Override
@@ -134,6 +144,10 @@ public class TaskListFragment extends Fragment{
         @Override
         public int getItemCount() {
             return tasks.size();
+        }
+
+        public void setTasks(List<Task> tasks){
+            this.tasks = tasks;
         }
     }
 }

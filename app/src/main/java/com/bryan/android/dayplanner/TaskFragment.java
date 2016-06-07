@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,10 +43,22 @@ public class TaskFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID id = (UUID) getArguments().getSerializable(ARG_ID);
         mTask = DailyTasks.get(getActivity()).getTask(id);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        DailyTasks.get(getContext()).updateTask(mTask);
     }
 
     @Override
@@ -63,7 +77,7 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mText.setText(s.toString());
+                mTask.setmTaskName(s.toString());
             }
 
             @Override
@@ -87,7 +101,7 @@ public class TaskFragment extends Fragment {
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mTask.isCompleted(isChecked);
+                mTask.setIsCompleted(isChecked);
             }
         });
 

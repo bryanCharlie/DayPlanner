@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_task_list"
+        android:id="@+id/menu_item_show_subtitle"
+        android:title="@string/show_subtitle"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/menu_item_task_list"
         android:icon="@drawable/ic_menu_add"
         android:title="@string/new_task"
-        app:showAsAction="ifRoom|withText"></item>
+        app:showAsAction="ifRoom|withText"/>
+
 
 </menu>

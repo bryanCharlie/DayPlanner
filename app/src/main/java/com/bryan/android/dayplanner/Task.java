@@ -9,35 +9,43 @@ import java.util.UUID;
 public class Task {
 
     private String mTaskName;
-    private UUID id;
-    private Date dateCompleted;
+    private UUID mId;
+    private Date mDate;
 
     private Boolean isCompleted = false;
 
     public Task(){
-        id = UUID.randomUUID();
-        dateCompleted = new Date();
+        mId = UUID.randomUUID();
+        mDate = new Date();
     }
 
-    public void isCompleted(boolean bool){
+    public Task(UUID id){
+        this.mId = id;
+        mDate = new Date();
+    }
+
+    public void setIsCompleted(boolean bool){
         isCompleted = bool;
     }
 
     public void setDate(Date date){
-        dateCompleted = date;
+        mDate = date;
     }
 
     public UUID getId(){
-        return id;
+        return mId;
     }
     public Date getDateCompleted() {
-        return dateCompleted;
+        return mDate;
     }
     public String getTaskName() {
         return mTaskName;
     }
     public Boolean getIsCompleted() {
         return isCompleted;
+    }
+    public void setmTaskName (String s){
+        mTaskName = s;
     }
 
 }
